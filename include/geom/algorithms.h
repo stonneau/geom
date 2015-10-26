@@ -206,11 +206,12 @@ namespace geom
         for(In edge = clipBegin; edge != clipEndHull-1; ++edge)
         {
             In E = from;
+            int dirE, dirS = isLeft<Dim, Numeric, Point, CPointRef>(*edge, *(edge+1), *E);
             for(In S= from+1;
                 S != to; ++E, ++S)
             {
-                int dirE = isLeft<Dim, Numeric, Point, CPointRef>(*edge, *(edge+1), *E);
-                int dirS = isLeft<Dim, Numeric, Point, CPointRef>(*edge, *(edge+1), *S);
+                dirE = dirS;
+                dirS = isLeft<Dim, Numeric, Point, CPointRef>(*edge, *(edge+1), *S);
                 if(dirE < 0)
                 {
                     if(dirS < 0)
