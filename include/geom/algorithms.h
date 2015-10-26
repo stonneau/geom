@@ -108,14 +108,13 @@ namespace geom
         Point pointOnHull = *leftMost(pointsBegin, pointsEnd);
         Point lastPoint = *pointsBegin;
         do {
-            Point& pi = pointOnHull;
             lastPoint = *pointsBegin;
             for(In current = pointsBegin +1; current!= pointsEnd; ++current)
             {
-                if((lastPoint == pointOnHull) || (isLeft(pi, lastPoint,*current) > 0))
+                if((lastPoint == pointOnHull) || (isLeft(pointOnHull, lastPoint,*current) > 0))
                     lastPoint = *current;
             }
-            res.push_back(pi);
+            res.insert(res.end(),pointOnHull);
             pointOnHull = lastPoint;
         } while(lastPoint != *res.begin());
         res.insert(res.end(), lastPoint);
@@ -179,15 +178,15 @@ namespace geom
 
         // Get the x and y
         Numeric pre = (x1*y2 - y1*x2), post = (x3*y4 - y3*x4);
-        Numeric x = ( pre * (x3 - x4) - (x1 - x2) * post ) / d;
-        Numeric y = ( pre * (y3 - y4) - (y1 - y2) * post ) / d;
+        Numeric x = (pre * (x3 - x4) - (x1 - x2) * post) / d;
+        Numeric y = (pre * (y3 - y4) - (y1 - y2) * post) / d;
 
         // Check if the x and y coordinates are within both lines
         // not supposed to happen
-        /*if ( x < min(x1, x2) || x > max(x1, x2) ||
-        x < min(x3, x4) || x > max(x3, x4) ) return NULL;
-        if ( y < min(y1, y2) || y > max(y1, y2) ||
-        y < min(y3, y4) || y > max(y3, y4) ) return NULL;*/
+        /*if (x < min(x1, x2) || x > max(x1, x2) ||
+        x < min(x3, x4) || x > max(x3, x4)) return NULL;
+        if (y < min(y1, y2) || y > max(y1, y2) ||
+        y < min(y3, y4) || y > max(y3, y4)) return NULL;*/
 
         // Return the point of intersection
         res[0] = x;
