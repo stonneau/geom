@@ -64,7 +64,7 @@ namespace geom
     /// See: the January 2001 Algorithm "Area of 2D and 3D Triangles and Polygons"
     template<int Dim=3, typename Numeric=double, typename Point=Eigen::Matrix<Numeric, Dim, 1>,
              typename CPointRef= const Eigen::Ref<const Point>& >
-    int isLeft(CPointRef lA, CPointRef lB, CPointRef p2);
+    Numeric isLeft(CPointRef lA, CPointRef lB, CPointRef p2);
 
     /// leftMost(): returns the point most "on the left" for a given set
     /// \param pointsBegin, pointsEnd iterators to first and last points of a set
@@ -81,10 +81,9 @@ namespace geom
     }
 
     template<int Dim=3, typename Numeric=double, typename Point=Eigen::Matrix<Numeric, Dim, 1>, typename CPointRef= const Eigen::Ref<const Point>& >
-    int isLeft(CPointRef lA, CPointRef lB, CPointRef p2)
+    Numeric isLeft(CPointRef lA, CPointRef lB, CPointRef p2)
     {
-        Numeric x = (lB[0] - lA[0]) * (p2[1] - lA[1]) - (p2[0] - lA[0]) * (lB[1] - lA[1]);
-        return x < 0 ? -1 : x > 0;
+        return (lB[0] - lA[0]) * (p2[1] - lA[1]) - (p2[0] - lA[0]) * (lB[1] - lA[1]);
     }
 
 
@@ -206,7 +205,7 @@ namespace geom
         for(In edge = clipBegin; edge != clipEndHull-1; ++edge)
         {
             In E = from;
-            int dirE, dirS = isLeft<Dim, Numeric, Point, CPointRef>(*edge, *(edge+1), *E);
+            Numeric dirE, dirS = isLeft<Dim, Numeric, Point, CPointRef>(*edge, *(edge+1), *E);
             for(In S= from+1;
                 S != to; ++E, ++S)
             {
