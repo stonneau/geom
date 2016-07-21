@@ -1,4 +1,4 @@
-#include "geom/algorithms.h"
+#include "geom/algorithms2D.h"
 
 #include <iostream>
 #include <memory>
@@ -58,7 +58,7 @@ void loadHull(const T_Point& hull, const char sign)
         for(std::size_t j = 0; j <size; ++j)
         {
             double y = j * 0.2 -1;
-            if(geom::containsHull(hull.begin(), hull.end(), Eigen::Vector3d(x,y,0)))
+            if(geom::D2::containsHull(hull.begin(), hull.end(), Eigen::Vector3d(x,y,0)))
             {
                 scr[i][j] = sign;
             }
@@ -74,7 +74,7 @@ void hullGiftWrapping2DTest(int& ret)
     points.push_back(Eigen::Vector2d(-1,-1));
     points.push_back(Eigen::Vector2d(1,-1));
     points.push_back(Eigen::Vector2d(0,0));
-    T_Point2D hull = geom::hullGiftWrapping<T_Point2D, 2>(points.begin(), points.end());
+    T_Point2D hull = geom::D2::hullGiftWrapping<T_Point2D, 2>(points.begin(), points.end());
     T_Point2D expectedHull;
     expectedHull.push_back(Eigen::Vector2d(-1,1));
     expectedHull.push_back(Eigen::Vector2d(1,1));
@@ -102,7 +102,7 @@ void hullGiftWrappingTest(int& ret)
     points.push_back(Eigen::Vector3d(-1,-1,0));
     points.push_back(Eigen::Vector3d(1,-1,0));
     points.push_back(Eigen::Vector3d(0,0,0));
-    T_Point hull = geom::hullGiftWrapping<T_Point>(points.begin(), points.end());
+    T_Point hull = geom::D2::hullGiftWrapping<T_Point>(points.begin(), points.end());
     T_Point expectedHull;
     expectedHull.push_back(Eigen::Vector3d(-1,1,0));
     expectedHull.push_back(Eigen::Vector3d(1,1,0));
@@ -141,10 +141,10 @@ void ContainsTest(int& ret)
     points.push_back(Eigen::Vector3d(1,0,0));
     points.push_back(Eigen::Vector3d(0,-1,0));
     points.push_back(Eigen::Vector3d(0,0,0));
-    T_Point hull = geom::hullGiftWrapping<T_Point>(points.begin(), points.end());
+    T_Point hull = geom::D2::hullGiftWrapping<T_Point>(points.begin(), points.end());
     for(std::size_t i = 0; i < tested.size(); ++i)
     {
-        if(geom::containsHull(hull.begin(), hull.end(), tested[i]) != expected[i])
+        if(geom::D2::containsHull(hull.begin(), hull.end(), tested[i]) != expected[i])
         {
             ret = -1;
             std::cout << "Failed in Contains test, for point " << i << std::endl;
@@ -168,15 +168,15 @@ void hullGiftWrappingIntersectionTest(int& ret)
     b.push_back(Eigen::Vector3d(-0.6,1,0));
     b.push_back(Eigen::Vector3d(1,1,0));
     b.push_back(Eigen::Vector3d(1,-1,0));
-    T_Point ha = geom::hullGiftWrapping<T_Point>(a.begin(), a.end());
-    T_Point hb = geom::hullGiftWrapping<T_Point>(b.begin(), b.end());
+    T_Point ha = geom::D2::hullGiftWrapping<T_Point>(a.begin(), a.end());
+    T_Point hb = geom::D2::hullGiftWrapping<T_Point>(b.begin(), b.end());
     loadHull(ha, '+');
     drawMatrix();
     clear();
     loadHull(hb, '/');
     drawMatrix();
     loadHull(ha, '+');
-    T_Point inter = geom::computeIntersection<T_Point, 3, double, Eigen::Vector3d,
+    T_Point inter = geom::D2::computeIntersection<T_Point, 3, double, Eigen::Vector3d,
             Eigen::Ref<Eigen::Vector3d>&,
             const Eigen::Ref<const Eigen::Vector3d>&, T_Point::const_iterator>(ha.begin(),ha.end(),hb.begin(),hb.end());
 
@@ -189,9 +189,9 @@ void hullGiftWrappingIntersectionTest(int& ret)
         Eigen::Vector3d test;
         test[0] = 2*((double)(rand()) / (double)(RAND_MAX) - 0.5);
         test[1] = 2*((double)(rand()) / (double)(RAND_MAX) - 0.5);
-        bool inInter =geom::containsHull(inter.begin(), inter.end(),test);
-        bool inEach= geom::containsHull(hb.begin(), hb.end(), test) &&
-                geom::containsHull(ha.begin(), ha.end(), test);
+        bool inInter =geom::D2::containsHull(inter.begin(), inter.end(),test);
+        bool inEach= geom::D2::containsHull(hb.begin(), hb.end(), test) &&
+                geom::D2::containsHull(ha.begin(), ha.end(), test);
         if(inInter && !inEach)
         {
             ret = -1;
@@ -218,15 +218,15 @@ void hullGiftWrappingIntersectionNoIntersectionTest(int& ret)
     b.push_back(Eigen::Vector3d(1,1,0));
     b.push_back(Eigen::Vector3d(1,0,0));
     b.push_back(Eigen::Vector3d(0.1,0,0));
-    T_Point ha = geom::hullGiftWrapping<T_Point>(a.begin(), a.end());
-    T_Point hb = geom::hullGiftWrapping<T_Point>(b.begin(), b.end());
+    T_Point ha = geom::D2::hullGiftWrapping<T_Point>(a.begin(), a.end());
+    T_Point hb = geom::D2::hullGiftWrapping<T_Point>(b.begin(), b.end());
     loadHull(ha, '+');
     drawMatrix();
     clear();
     loadHull(hb, '/');
     drawMatrix();
     loadHull(ha, '+');
-    T_Point inter = geom::computeIntersection<T_Point, 3, double, Eigen::Vector3d,
+    T_Point inter = geom::D2::computeIntersection<T_Point, 3, double, Eigen::Vector3d,
             Eigen::Ref<Eigen::Vector3d>&,
             const Eigen::Ref<const Eigen::Vector3d>&, T_Point::const_iterator>(ha.begin(),ha.end(),hb.begin(),hb.end());
 

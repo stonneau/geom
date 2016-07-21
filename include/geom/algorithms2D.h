@@ -10,7 +10,8 @@
 
 namespace geom
 {
-
+    namespace D2
+    {
     /// Implementation of the gift wrapping algorithm to determine the 2D projection of the convex hull of a set of points
     /// Dimension can be greater than two, in which case the points will be projected on the z = 0 plane
     /// and whether a point belongs to it or not.
@@ -70,10 +71,13 @@ namespace geom
     /// \param pointsBegin, pointsEnd iterators to first and last points of a set
     template<int Dim=3, typename Numeric=double, typename Point=Eigen::Matrix<Numeric, Dim, 1>, typename In >
     In leftMost(In pointsBegin, In pointsEnd);
+    } // namespace D2
 } //namespace geom
 
 namespace geom
 {
+    namespace D2
+    {
     template<typename CPointRef, typename Numeric=double>
     Numeric dot(CPointRef a, CPointRef b)
     {
@@ -236,6 +240,7 @@ namespace geom
         }
         return inputList;
     }
+    } //namespace D2
 } //namespace geom
 
 #endif //_FILE_ALGORITHMS

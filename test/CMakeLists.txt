@@ -12,7 +12,7 @@ if ( MSVC )
 endif ( MSVC )
 	
 set(SOURCES
-    ${INCLUDE_DIR}/geom/algorithms.h
+    ${INCLUDE_DIR}/geom/algorithms2D.h
     main.cpp
 )
 

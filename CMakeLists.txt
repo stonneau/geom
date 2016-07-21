@@ -30,7 +30,7 @@ endif()
 # Declare Headers
 SET(${PROJECT_NAME}_HEADERS
     include/geom/config.h
-    include/geom/algorithms.h
+    include/geom/algorithms2D.h
   )
 
 find_package(Eigen3 REQUIRED)
