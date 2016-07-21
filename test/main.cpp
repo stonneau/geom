@@ -66,7 +66,7 @@ void loadHull(const T_Point& hull, const char sign)
     }
 }
 
-void convexHull2DTest(int& ret)
+void hullGiftWrapping2DTest(int& ret)
 {
     T_Point2D points;
     points.push_back(Eigen::Vector2d(1,1));
@@ -74,7 +74,7 @@ void convexHull2DTest(int& ret)
     points.push_back(Eigen::Vector2d(-1,-1));
     points.push_back(Eigen::Vector2d(1,-1));
     points.push_back(Eigen::Vector2d(0,0));
-    T_Point2D hull = geom::convexHull<T_Point2D, 2>(points.begin(), points.end());
+    T_Point2D hull = geom::hullGiftWrapping<T_Point2D, 2>(points.begin(), points.end());
     T_Point2D expectedHull;
     expectedHull.push_back(Eigen::Vector2d(-1,1));
     expectedHull.push_back(Eigen::Vector2d(1,1));
@@ -94,7 +94,7 @@ void convexHull2DTest(int& ret)
     }
 }
 
-void convexHullTest(int& ret)
+void hullGiftWrappingTest(int& ret)
 {
     T_Point points;
     points.push_back(Eigen::Vector3d(1,1,0));
@@ -102,7 +102,7 @@ void convexHullTest(int& ret)
     points.push_back(Eigen::Vector3d(-1,-1,0));
     points.push_back(Eigen::Vector3d(1,-1,0));
     points.push_back(Eigen::Vector3d(0,0,0));
-    T_Point hull = geom::convexHull<T_Point>(points.begin(), points.end());
+    T_Point hull = geom::hullGiftWrapping<T_Point>(points.begin(), points.end());
     T_Point expectedHull;
     expectedHull.push_back(Eigen::Vector3d(-1,1,0));
     expectedHull.push_back(Eigen::Vector3d(1,1,0));
@@ -141,7 +141,7 @@ void ContainsTest(int& ret)
     points.push_back(Eigen::Vector3d(1,0,0));
     points.push_back(Eigen::Vector3d(0,-1,0));
     points.push_back(Eigen::Vector3d(0,0,0));
-    T_Point hull = geom::convexHull<T_Point>(points.begin(), points.end());
+    T_Point hull = geom::hullGiftWrapping<T_Point>(points.begin(), points.end());
     for(std::size_t i = 0; i < tested.size(); ++i)
     {
         if(geom::containsHull(hull.begin(), hull.end(), tested[i]) != expected[i])
@@ -156,7 +156,7 @@ void ContainsTest(int& ret)
     clear();
 }
 
-void ConvexHullIntersectionTest(int& ret)
+void hullGiftWrappingIntersectionTest(int& ret)
 {
     T_Point a, b;
     a.push_back(Eigen::Vector3d(-1,0,0));
@@ -168,8 +168,8 @@ void ConvexHullIntersectionTest(int& ret)
     b.push_back(Eigen::Vector3d(-0.6,1,0));
     b.push_back(Eigen::Vector3d(1,1,0));
     b.push_back(Eigen::Vector3d(1,-1,0));
-    T_Point ha = geom::convexHull<T_Point>(a.begin(), a.end());
-    T_Point hb = geom::convexHull<T_Point>(b.begin(), b.end());
+    T_Point ha = geom::hullGiftWrapping<T_Point>(a.begin(), a.end());
+    T_Point hb = geom::hullGiftWrapping<T_Point>(b.begin(), b.end());
     loadHull(ha, '+');
     drawMatrix();
     clear();
@@ -195,17 +195,17 @@ void ConvexHullIntersectionTest(int& ret)
         if(inInter && !inEach)
         {
             ret = -1;
-            std::cout << "Failed in ConvexHullIntersectionTest, false positive " << test << std::endl;
+            std::cout << "Failed in hullGiftWrappingIntersectionTest, false positive " << test << std::endl;
         }
         if(!inInter && inEach)
         {
             ret = -1;
-            std::cout << "Failed in ConvexHullIntersectionTest, false negative " << test << std::endl;
+            std::cout << "Failed in hullGiftWrappingIntersectionTest, false negative " << test << std::endl;
         }
     }
 }
 
-void ConvexHullIntersectionNoIntersectionTest(int& ret)
+void hullGiftWrappingIntersectionNoIntersectionTest(int& ret)
 {
     T_Point a, b;
     a.push_back(Eigen::Vector3d(-1,1,0));
@@ -218,8 +218,8 @@ void ConvexHullIntersectionNoIntersectionTest(int& ret)
     b.push_back(Eigen::Vector3d(1,1,0));
     b.push_back(Eigen::Vector3d(1,0,0));
     b.push_back(Eigen::Vector3d(0.1,0,0));
-    T_Point ha = geom::convexHull<T_Point>(a.begin(), a.end());
-    T_Point hb = geom::convexHull<T_Point>(b.begin(), b.end());
+    T_Point ha = geom::hullGiftWrapping<T_Point>(a.begin(), a.end());
+    T_Point hb = geom::hullGiftWrapping<T_Point>(b.begin(), b.end());
     loadHull(ha, '+');
     drawMatrix();
     clear();
@@ -238,7 +238,7 @@ void ConvexHullIntersectionNoIntersectionTest(int& ret)
     if(!inter.empty())
     {
         ret = -1;
-        std::cout << "Failed in ConvexHullIntersectionNoIntersectionTest, intersection should be empty" << std::endl;
+        std::cout << "Failed in hullGiftWrappingIntersectionNoIntersectionTest, intersection should be empty" << std::endl;
     }
 }
 
@@ -250,11 +250,11 @@ int main()
     std::cout << "running test cases..." << std::endl;
     int ret = 0;
     clear();
-    convexHullTest(ret);
-    convexHull2DTest(ret);
+    hullGiftWrappingTest(ret);
+    hullGiftWrapping2DTest(ret);
     ContainsTest(ret);
-    ConvexHullIntersectionTest(ret);
-    ConvexHullIntersectionNoIntersectionTest(ret);
+    hullGiftWrappingIntersectionTest(ret);
+    hullGiftWrappingIntersectionNoIntersectionTest(ret);
     if(ret == -1)
         std::cout << "test exited with errors" << std::endl;
     else

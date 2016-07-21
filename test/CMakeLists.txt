@@ -12,6 +12,7 @@ if ( MSVC )
 endif ( MSVC )
 	
 set(SOURCES
+    ${INCLUDE_DIR}/geom/algorithms.h
     main.cpp
 )
 

@@ -20,7 +20,7 @@ namespace geom
     /// ATTENTION: first point is included twice in representation (it is also the last point)
     template<typename T, int Dim=3, typename Numeric=double, typename Point=Eigen::Matrix<Numeric, Dim, 1>,
              typename CPointRef= const Eigen::Ref<const Point>&, typename In>
-    T convexHull(In pointsBegin, In pointsEnd);
+    T hullGiftWrapping(In pointsBegin, In pointsEnd);
 
     /// Test whether a 2d point belongs to a 2d convex hull
     /// source http://softsurfer.com/Archive/algorithm_0103/algorithm_0103.htm#wn_PinPolygon()
@@ -102,7 +102,7 @@ namespace geom
 
     template<typename T, int Dim=3, typename Numeric=double, typename Point=Eigen::Matrix<Numeric, Dim, 1>,
              typename CPointRef= const Eigen::Ref<const Point>&, typename In>
-    T convexHull(In pointsBegin, In pointsEnd)
+    T hullGiftWrapping(In pointsBegin, In pointsEnd)
     {
         T res;
         Point pointOnHull = *leftMost(pointsBegin, pointsEnd);
@@ -157,7 +157,7 @@ namespace geom
              typename CPointRef= const Eigen::Ref<const Point>&, typename In>
     bool contains(In pointsBegin, In pointsEnd, const CPointRef& aPoint)
     {
-        T ch = convexHull<T, Dim, Numeric, Point, In>(pointsBegin, pointsEnd);
+        T ch = hullGiftWrapping<T, Dim, Numeric, Point, In>(pointsBegin, pointsEnd);
         return contains<Dim, Numeric, Point, In>(ch.begin(), ch.end(), aPoint);
     }
 
