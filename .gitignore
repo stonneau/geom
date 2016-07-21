@@ -13,8 +13,10 @@
 *.dylib
 *.dll
 
-# Fortran module files
-*.mod
+# cmake outputs
+build/*
+bin/*
+CMakeLists.txt.user
 
 # Compiled Static libraries
 *.lai
@@ -26,3 +28,4 @@
 *.exe
 *.out
 *.app
+
